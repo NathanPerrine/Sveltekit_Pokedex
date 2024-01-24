@@ -1,9 +1,20 @@
 <script lang="ts">
   import  type { PageData } from "./$types";
+  import type { IndexMonster } from "./+page"
   import { generations } from "./generations"
 
   export let data : PageData
+
+  let monsterId : string;
+  $: monster = data.monsters.find((monster) => monster.id === monsterId);
+  const monsterClick = (monster: IndexMonster) => {
+    monsterId = monster.id;
+  };
+
 </script>
+
+<h1>{monsterId}</h1>
+<h1>{monster?.name}</h1>
 
 <div class="generations">
   {#each generations as generation (generation.id)}
@@ -16,7 +27,7 @@
 <div class="monsters">
   {#each data.monsters as monster (monster.id)}
 
-  <div class="monster">
+  <button class="monster" on:click={() => monsterClick(monster)}>
     <div class="monster-content">
       <img src={monster.image} alt={monster.name} />
       {monster.name}
@@ -24,7 +35,7 @@
     <div class="monster-id">
       {monster.id}
     </div>
-  </div>
+  </button>
   {/each}
 </div>
 
@@ -61,6 +72,7 @@
     padding: 10px;
     position: relative;
     background-color: #eee;
+    border: none;
 
     &:hover {
       background-color: #ddd;
