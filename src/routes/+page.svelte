@@ -1,20 +1,29 @@
 <script lang="ts">
   import  type { PageData } from "./$types";
-  import type { IndexMonster } from "./+page"
+  import { page } from "$app/stores";
   import { generations } from "./generations"
+  import { goto } from "$app/navigation"
 
   export let data : PageData
 
-  let monsterId : string;
+  $: monsterId = $page.url.searchParams.get("monsterId") || '';
   $: monster = data.monsters.find((monster) => monster.id === monsterId);
-  const monsterClick = (monster: IndexMonster) => {
-    monsterId = monster.id;
+  $: monsterId2 = $page.url.searchParams.get("monsterId2") || '';
+  $: monster2 = data.monsters.find((monster) => monster.id === monsterId2);
+
+  const updateSearchParams = (key: string, value: string) => {
+    const searchParams = new URLSearchParams($page.url.searchParams);
+    searchParams.set(key, value);
+    goto(`?${searchParams.toString()}`);
   };
+
 
 </script>
 
 <h1>{monsterId}</h1>
 <h1>{monster?.name}</h1>
+<h1>{monsterId2}</h1>
+<h1>{monster2?.name}</h1>
 
 <div class="generations">
   {#each generations as generation (generation.id)}
@@ -26,16 +35,20 @@
 
 <div class="monsters">
   {#each data.monsters as monster (monster.id)}
-
-  <button class="monster" on:click={() => monsterClick(monster)}>
-    <div class="monster-content">
-      <img src={monster.image} alt={monster.name} />
-      {monster.name}
+    <div class="monster">
+      <button on:click={() => updateSearchParams('monsterId', monster.id)}>
+        <div class="monster-content">
+          <img src={monster.image} alt={monster.name} />
+          {monster.name}
+        </div>
+        <div class="monster-id">
+          {monster.id}
+        </div>
+      </button>
+      <button class="add2" on:click={() => updateSearchParams('monsterId2', monster.id)}>
+        Add Monster 2
+      </button>
     </div>
-    <div class="monster-id">
-      {monster.id}
-    </div>
-  </button>
   {/each}
 </div>
 
@@ -77,12 +90,22 @@
     &:hover {
       background-color: #ddd;
     }
+
+    button {
+      border: none;
+      background-color: inherit;
+    }
+  }
+
+  .add2:hover {
+    color: blue;
   }
 
   .monster-content {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: none;
   }
 
   .monster-id {
