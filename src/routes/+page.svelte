@@ -8,6 +8,15 @@
 
   export let data : PageData
 
+  let form = {
+    searchString: ''
+  }
+
+  let searchString = ''
+  $: selectedMonsters = data.monsters.filter((monster) => {
+    return monster.name.toLocaleLowerCase().includes(searchString.toLocaleLowerCase())
+  })
+
   $: monsterId = $page.url.searchParams.get("monsterId") || '';
   $: monster = data.monsters.find((monster) => monster.id === monsterId);
   $: monsterId2 = $page.url.searchParams.get("monsterId2") || '';
@@ -19,6 +28,10 @@
     goto(`?${searchParams.toString()}`);
   };
 
+  const submitSearch = (e: Event) => {
+    e.preventDefault()
+    searchString = form.searchString
+  }
 
 </script>
 {#if monster}
@@ -41,8 +54,13 @@
   {/each}
 </div>
 
+<form class="search-form" on:submit={submitSearch}>
+  <input class="search-field" type="text" bind:value={form.searchString} placeholder="Pokemon Name"/>
+  <input type="submit" value="Search" />
+</form>
+
 <div class="monsters">
-  {#each data.monsters as monster (monster.id)}
+  {#each selectedMonsters as monster (monster.id)}
     <MonsterCard monster={monster} updateSearchParams={updateSearchParams} isInteractive={true}/>
   {/each}
 </div>
@@ -72,5 +90,34 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
+  }
+
+  .search-form {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+
+    input[type="text"] {
+      padding: 5px 10px;
+      border: 1px solid #333;
+      border-radius: 5px;
+      width: 200px;
+    }
+
+    input[type="submit"] {
+      padding: 5px 10px;
+      border: 1px solid #333;
+      border-radius: 5px;
+      margin-left: 10px;
+      background-color: #333;
+      color: #fff;
+    }
+  }
+
+  .searchField {
+    padding: 5px 10px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    width: 200px;
   }
 </style>
