@@ -3,6 +3,8 @@
   import { page } from "$app/stores";
   import { generations } from "./generations"
   import { goto } from "$app/navigation"
+	import MonsterCard from "./MonsterCard.svelte";
+
 
   export let data : PageData
 
@@ -19,6 +21,12 @@
 
 
 </script>
+{#if monster}
+  <MonsterCard monster={monster} updateSearchParams={updateSearchParams}/>
+{/if}
+{#if monster2}
+  <MonsterCard monster={monster2} updateSearchParams={updateSearchParams}/>
+{/if}
 
 <h1>{monsterId}</h1>
 <h1>{monster?.name}</h1>
@@ -35,20 +43,7 @@
 
 <div class="monsters">
   {#each data.monsters as monster (monster.id)}
-    <div class="monster">
-      <button on:click={() => updateSearchParams('monsterId', monster.id)}>
-        <div class="monster-content">
-          <img src={monster.image} alt={monster.name} />
-          {monster.name}
-        </div>
-        <div class="monster-id">
-          {monster.id}
-        </div>
-      </button>
-      <button class="add2" on:click={() => updateSearchParams('monsterId2', monster.id)}>
-        Add Monster 2
-      </button>
-    </div>
+    <MonsterCard monster={monster} updateSearchParams={updateSearchParams} isInteractive={true}/>
   {/each}
 </div>
 
@@ -77,42 +72,5 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-  }
-
-  .monster {
-    width: 100px;
-    margin: 10px;
-    padding: 10px;
-    position: relative;
-    background-color: #eee;
-    border: none;
-
-    &:hover {
-      background-color: #ddd;
-    }
-
-    button {
-      border: none;
-      background-color: inherit;
-    }
-  }
-
-  .add2:hover {
-    color: blue;
-  }
-
-  .monster-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: none;
-  }
-
-  .monster-id {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    font-size: 0.8em;
-    color: #aaa;
   }
 </style>
