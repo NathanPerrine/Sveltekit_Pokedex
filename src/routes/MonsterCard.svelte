@@ -40,6 +40,7 @@
     button {
       border: none;
       background-color: inherit;
+      max-width: 100px;
     }
   }
 
