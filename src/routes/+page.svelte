@@ -17,11 +17,6 @@
     return monster.name.toLocaleLowerCase().includes(searchString.toLocaleLowerCase())
   })
 
-  $: monsterId = $page.url.searchParams.get("monsterId") || '';
-  $: monster = data.monsters.find((monster) => monster.id === monsterId);
-  $: monsterId2 = $page.url.searchParams.get("monsterId2") || '';
-  $: monster2 = data.monsters.find((monster) => monster.id === monsterId2);
-
   $: selectedGenerationId = $page.url.searchParams.get('generation_id') || '';
 
   const updateSearchParams = (key: string, value: string) => {
@@ -35,18 +30,6 @@
   }
 
 </script>
-
-{#if monster}
-  <MonsterCard monster={monster} updateSearchParams={updateSearchParams}/>
-{/if}
-{#if monster2}
-  <MonsterCard monster={monster2} updateSearchParams={updateSearchParams}/>
-{/if}
-
-<h1>{monsterId}</h1>
-<h1>{monster?.name}</h1>
-<h1>{monsterId2}</h1>
-<h1>{monster2?.name}</h1>
 
 <div class="generations">
   <button class="generation"
@@ -71,7 +54,7 @@
 
 <div class="monsters">
   {#each selectedMonsters as monster (monster.id)}
-    <MonsterCard monster={monster} updateSearchParams={updateSearchParams} isInteractive={true}/>
+    <MonsterCard monster={monster} />
   {/each}
 </div>
 
