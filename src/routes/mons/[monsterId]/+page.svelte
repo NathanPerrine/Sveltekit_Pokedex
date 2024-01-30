@@ -2,15 +2,92 @@
 	import type { PageData } from './$types';
 
 	export let data: PageData;
-	console.log(data.monster.types[0].type.name);
 </script>
 
-<p>Hello from {data.monster.name} coming soon</p>
-<img src={data.monster.sprites.front_default} alt={data.monster.name} />
-<p>{data.monster.types[0].type.name}</p>
-<div class={"pkm-type " + data.monster.types[0].type.name}><span>Fire</span></div>
+<div class="mon-header">
+  <img src={data.monster.sprites.front_default} alt={data.monster.name} width="150" height="150"/>
+
+  <div class="mon-stats">
+    <p>id: {data.monster.id}</p>
+    <p>height: {data.monster.height}</p>
+    <p>weight: {data.monster.weight}</p>
+    <div class="type-container">
+      {#each data.monster.types as types}
+        <div class={"pkm-type " + types.type.name}><span>{types.type.name}</span></div>
+      {/each}
+    </div>
+  </div>
+</div>
+
+<div class="stat-block">
+  {#each data.monster.stats as stat}
+    <div class="stat"
+      class:very-bad={29 >= stat.base_stat && stat.base_stat >= 1}
+      class:bad={59 >= stat.base_stat && stat.base_stat >= 30}
+      class:mediocre={89 >= stat.base_stat && stat.base_stat >= 60}
+      class:good={119 >= stat.base_stat && stat.base_stat >= 90}
+      class:very-good={149 >= stat.base_stat && stat.base_stat >= 120}
+      class:phenomenal={255 >= stat.base_stat && stat.base_stat >= 150}
+    >
+      {stat.stat.name}: {stat.base_stat}
+    </div>
+  {/each}
+</div>
 
 <style lang="scss">
+
+  .mon-header {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 0 10px;
+
+    p {
+      margin: 10px 0px;
+    }
+  }
+
+  .mon-stats {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .type-container {
+    width: 125px;
+    max-width: 125px;
+    display: flex;
+    justify-content: space-between;
+
+  }
+
+  .stat-block {
+    display: flex;
+    flex-direction: column;
+
+    .stat {
+      background-color: green;
+    }
+
+    .very-bad {
+      color: red;
+    }
+    .bad {
+      color: orange;
+    }
+    .mediocre {
+      color: yellow;
+    }
+    .good {
+      color: green;
+    }
+    .very-good {
+      color: darkgreen;
+    }
+    .phenomenal {
+      color: blue;
+    }
+  }
+
   // type colors
   $normal: #a8a878;
   $fire: #F08030;
@@ -37,12 +114,11 @@
 
 		font-family: 'Trebuchet MS';
 		font-weight: bold;
-		width: 6em;
+    width: 50px;
 		text-align: center;
 		display: inline-block;
 		border: 0.1em solid transparent;
 		padding: 0.1em 0.2em 0.2em;
-		margin: 0.1em 0.015em;
 		border-radius: 0.4em;
 		span {
 			text-transform: uppercase;

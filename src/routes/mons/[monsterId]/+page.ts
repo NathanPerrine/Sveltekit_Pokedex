@@ -1,6 +1,6 @@
 import type { PageLoad } from './$types';
 
-type Sprites = {
+type sprites = {
   back_default: string | null,
   back_female: string | null,
   back_shiny: string | null,
@@ -17,10 +17,21 @@ type types = {
   }
 }
 
-export type FullMonster = {
+type stats = {
+  base_stat: number,
+  stat: {
+    name: string,
+  }
+}
+
+export type fullMonster = {
+  id: number,
   name: string,
-  sprites: Sprites
+  height: number,
+  weight: number,
+  sprites: sprites
   types: types[]
+  stats: stats[]
 }
 
 export const load = (async ({ fetch, params }) => {
@@ -28,8 +39,7 @@ export const load = (async ({ fetch, params }) => {
 
   const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${mon}`)
   const json = await response.json()
-  console.log(json)
-  const monster: FullMonster = json
+  const monster: fullMonster = json
 
   return {
     monster
