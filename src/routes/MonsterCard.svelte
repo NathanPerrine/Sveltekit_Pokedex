@@ -13,15 +13,17 @@
 </script>
 
 <div class="monster">
-  <button on:click={catchMonster}>
+  <!-- <button on:click={catchMonster}> -->
+  <a href={`/mons/${monster.name}`}>
     <div class="monster-content">
-      <img src={monster.image} alt={monster.name} />
+      <img loading="lazy" src={monster.image} alt={monster.name} />
       {monster.name}
     </div>
     <div class="monster-id">
       {monster.id}
     </div>
-  </button>
+  <!-- </button> -->
+  </a>
 </div>
 
 <style lang="scss">
