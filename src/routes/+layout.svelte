@@ -3,9 +3,6 @@
     import { page } from '$app/stores';
     import { caughtMonsters } from '$lib/stores';
 
-
-
-
     export let data: LayoutData;
 </script>
 
@@ -24,21 +21,30 @@
   .navbar {
     display: flex;
     justify-content: space-between;
-    background-color: #333;
-    color: #fff;
+
+    background-color: var(--secondary);
+    color: var(--text);
+
     padding: 10px;
 
+    border-bottom: 3px solid black;
+
+    position: sticky;
+    top: 0;
+    z-index: 1;
+
     a {
-      color: #fff;
+      color: var(--text);
       text-decoration: none;
       padding: 10px;
 
       &:hover {
-        color: #CCC;
+        color: var(--text-highlight);
+        background-color: #ddd;
       }
 
       &.active {
-        border: 1px solid #CCC;
+        border: 1px solid var(--headline);
         border-radius: 4px;
       }
 
@@ -58,9 +64,9 @@
     --background: #eff0f3;
     --headline: #232946;
     --text: #2a2a2a;
-    --button: #ff8e3c;
+    --text-highlight: #444444;
+    --highlight: #ff8e3c;
     --secondary: #fffffe;
-    --tertiary: #d9376e;
   }
 
   .container {

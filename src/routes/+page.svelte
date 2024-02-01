@@ -52,11 +52,13 @@
   <input type="submit" value="Search" />
 </form>
 
-<div class="monsters">
-  {#each selectedMonsters as monster (monster.id)}
+<section class="monsters-container">
+  <div class="monsters">
+    {#each selectedMonsters as monster (monster.id)}
     <MonsterCard monster={monster} />
-  {/each}
-</div>
+    {/each}
+  </div>
+</section>
 
 <style lang="scss">
   .generations {
@@ -70,7 +72,7 @@
     margin: 5px;
     padding: 5px 10px;
     border: 1px solid black;
-    background-color: #f9f9f9;
+    background-color: var(--secondary);
     color: #333;
     cursor: pointer;
     width: 60px;
@@ -86,6 +88,20 @@
       &:hover {
         background-color: #444;
       }
+    }
+  }
+
+  .monsters-container{
+    border: 2px solid lightgray;
+    border-radius: 5px;
+
+    height: 70vh;
+    overflow-y: auto;
+
+    box-shadow: 1px 1px 5px lightgray inset;
+
+    @media (min-width: 768px) {
+      height: 85vh;
     }
   }
 

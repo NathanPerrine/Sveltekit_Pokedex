@@ -13,16 +13,14 @@
 </script>
 
 <div class="monster">
-  <!-- <button on:click={catchMonster}> -->
   <a href={`/mons/${monster.name}`}>
     <div class="monster-content">
-      <img loading="lazy" src={monster.image} alt={monster.name} />
+      <img loading="lazy" src={monster.image} alt={monster.name} width="100px" height="100px" />
       {monster.name}
     </div>
     <div class="monster-id">
       {monster.id}
     </div>
-  <!-- </button> -->
   </a>
 </div>
 
@@ -31,18 +29,25 @@
     width: 100px;
     margin: 10px;
     padding: 10px;
+
     position: relative;
-    background-color: #eee;
-    border: none;
+
+    background-color: var(--secondary);
+
+    border: 3px solid var(--text);
+    border-radius: 10px;
 
     &:hover {
       background-color: #ddd;
     }
 
-    button {
+    a {
       border: none;
       background-color: inherit;
       max-width: 100px;
+
+      font-weight: bold;
+      color: var(--text);
     }
   }
 
@@ -58,6 +63,6 @@
     top: 8px;
     right: 8px;
     font-size: 0.8em;
-    color: #aaa;
+    color: var(--text-highlight);
   }
 </style>

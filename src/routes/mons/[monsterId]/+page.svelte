@@ -109,6 +109,8 @@
     .name {
       text-align: center;
       text-decoration: underline;
+      color: var(--headline);
+      max-width: 125px;
 
       &::first-letter {
         text-transform: uppercase;
@@ -123,9 +125,7 @@
       display: flex;
       justify-content: center;
 
-
       text-align: right;
-      color: var(--text);
 
       p {
         margin: 0px;
@@ -151,10 +151,13 @@
   .stat-block {
     display: flex;
     flex-direction: column;
+
     width: 500px;
     max-width: 500px;
+
     border: 3px solid black;
     border-radius: 5px;
+
     padding-bottom: 10px;
     background-color: var(--secondary);
 
