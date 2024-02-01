@@ -1,22 +1,25 @@
 <script lang="ts">
 	import type { IndexMonster } from "./+page";
-  import { caughtMonsters } from "$lib/stores";
+  import type { fullMonster } from "./mons/[monsterId]/+page";
 
-  export let monster : IndexMonster;
+  export let monster : IndexMonster | fullMonster;
 
-  const catchMonster = () => {
-    caughtMonsters.update((monsters) => {
-      return [...monsters, monster]
-    })
-    console.log("caught monster: " + monster)
+  let image: string | null
+
+  $: if ('image' in monster) {
+    image = monster.image;
+  } else {
+    image = monster.sprites.front_default
   }
 </script>
 
 <div class="monster">
   <a href={`/mons/${monster.name}`}>
     <div class="monster-content">
-      <img loading="lazy" src={monster.image} alt={monster.name} width="100px" height="100px" />
-      {monster.name}
+      <img loading="lazy" src={image} alt={monster.name} width="100px" height="100px" />
+      <span class="mon-name">
+        {monster.name}
+      </span>
     </div>
     <div class="monster-id">
       {monster.id}
@@ -56,6 +59,14 @@
     flex-direction: column;
     align-items: center;
     background-color: none;
+
+    .mon-name {
+      text-align: center;
+
+      &::first-letter {
+          text-transform: uppercase;
+      }
+    }
   }
 
   .monster-id {

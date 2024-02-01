@@ -24,7 +24,7 @@ type stats = {
   }
 }
 
-type fullMonster = {
+export type fullMonster = {
   id: number,
   name: string,
   height: number,

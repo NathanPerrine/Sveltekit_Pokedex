@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types';
+  import { caughtMonsters } from "$lib/stores";
 
   type statObj = {
     [key: string]: string;
@@ -16,13 +17,32 @@
   let dexCount = 0;
   let shiny = false;
 
+  const catchMonster = () => {
+    caughtMonsters.update((monsters) => {
+      return [...monsters, data.monster]
+    })
+    console.log("caught monster: " + data.monster.name)
+  }
+
 	export let data: PageData;
 </script>
 
 <section class="center">
   <div class="mon-header">
     <div class="img-container">
-      <img src={data.monster.sprites.front_default} alt={data.monster.name} width="150" height="150"/>
+      <img src={shiny ? data.monster.sprites.front_shiny : data.monster.sprites.front_default} alt={data.monster.name} width="150" height="150"/>
+      <div class="shiny">
+        <label>
+          <input type="checkbox" bind:checked={shiny} />
+          <span>
+            {#if !shiny}
+              <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 20 20"><path fill="currentColor" d="M10 2a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 10 2m0 13a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 10 15m0-8a3 3 0 1 0 0 6a3 3 0 0 0 0-6m5.657-1.596a.75.75 0 1 0-1.06-1.06l-1.061 1.06a.75.75 0 0 0 1.06 1.06zm-9.193 9.192a.75.75 0 1 0-1.06-1.06l-1.06 1.06a.75.75 0 0 0 1.06 1.06zM18 10a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5A.75.75 0 0 1 18 10M5 10a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5A.75.75 0 0 1 5 10m9.596 5.657a.75.75 0 0 0 1.06-1.06l-1.06-1.061a.75.75 0 1 0-1.06 1.06zM5.404 6.464a.75.75 0 0 0 1.06-1.06l-1.06-1.06a.75.75 0 1 0-1.061 1.06z"/></svg>
+            {:else}
+              <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 36 36"><path fill="#FFAC33" d="M16 2s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2zm18 14s2 0 2 2s-2 2-2 2h-2s-2 0-2-2s2-2 2-2zM4 16s2 0 2 2s-2 2-2 2H2s-2 0-2-2s2-2 2-2zm5.121-8.707s1.414 1.414 0 2.828s-2.828 0-2.828 0L4.878 8.708s-1.414-1.414 0-2.829c1.415-1.414 2.829 0 2.829 0zm21 21s1.414 1.414 0 2.828s-2.828 0-2.828 0l-1.414-1.414s-1.414-1.414 0-2.828s2.828 0 2.828 0zm-.413-18.172s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828zm-21 21s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828zM16 32s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2z"/><circle cx="18" cy="18" r="10" fill="#FFAC33"/></svg>
+            {/if}
+          </span>
+        </label>
+      </div>
     </div>
 
     <div class="mon-info">
@@ -47,6 +67,12 @@
         {/each}
       </div>
     </div>
+  </div>
+</section>
+
+<section class="center">
+  <div class="addMonster">
+    <button on:click={catchMonster} >Add to my dex</button>
   </div>
 </section>
 
@@ -89,6 +115,28 @@
 </section>
 
 <style lang="scss">
+
+  button {
+    display: inline-block;
+    outline: 0;
+    border: 0;
+    cursor: pointer;
+    background-color: white;
+    border-radius: 4px;
+    // padding: 8px 16px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #2d3748;
+    border: 1px solid #cbd5e0;
+    line-height: 26px;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px 0 rgba(0,0,0,.06);
+  }
+
+  .addMonster {
+    button {
+      padding: 8px 16px;
+    }
+  }
 
 
   .center {
@@ -150,6 +198,19 @@
       display: flex;
       align-items: center;
       margin-right: 10px;
+
+      position: relative;
+
+      .shiny {
+        position: absolute;
+        top: 5%;
+        right: 5%;
+
+        input[type=checkbox]{
+          display: none;
+        }
+      }
+
 
       img {
         background-color: var(--secondary);
