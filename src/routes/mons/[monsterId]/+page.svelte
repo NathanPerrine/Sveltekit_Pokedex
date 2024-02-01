@@ -1,8 +1,10 @@
 <script lang="ts">
 	import type { PageData } from './$types';
   import { caughtMonsters } from "$lib/stores";
+  import Modal from '$lib/components/Modal.svelte';
 
   export let data: PageData;
+  let showModal = false;
 
   type statObj = {
     [key: string]: string;
@@ -30,7 +32,7 @@
     caughtMonsters.update((monsters) => {
       return [...monsters, data.monster]
     })
-    console.log("caught monster: " + data.monster.name)
+    showModal = true
   }
 
 </script>
@@ -82,6 +84,13 @@
   <div class="addMonster">
     <button disabled={caught} on:click={catchMonster}>Catch!</button>
   </div>
+
+  <Modal bind:showModal>
+    <h2 slot="header">
+      Pokemon caught!
+    </h2>
+    <p class="cap-first">{data.monster.name} has been sent to your PC.</p>
+  </Modal>
 </section>
 
 <section id="pokedex" class="center">
@@ -94,10 +103,12 @@
       <div class="dex-game">
 
         <label>
-          Game:
+          <div>
+            Game:
+          </div>
           <select bind:value={dexCount} name="games">
             {#each data.species.flavor_text_entries as dex, i}
-              <option value={i}>
+              <option selected value={i}>
                 {dex.version.name} | {dex.language.name}
               </option>
             {/each}
@@ -140,6 +151,14 @@
 
 <style lang="scss">
 
+  select {
+    max-width: 90%;
+  }
+
+  .cap-first::first-letter {
+    text-transform: uppercase;
+  }
+
   button {
     display: inline-block;
     outline: 0;
@@ -147,7 +166,6 @@
     cursor: pointer;
     background-color: white;
     border-radius: 4px;
-    // padding: 8px 16px;
     font-size: 16px;
     font-weight: 600;
     color: #2d3748;

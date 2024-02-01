@@ -1,3 +1,4 @@
 ## [x] only click add button once
-## [ ] catch pop up
+## [x] catch pop up
 ## [ ] transitions when deleting mons from page
+## [ ] local storage?
