@@ -2,6 +2,8 @@
 	import type { PageData } from './$types';
   import { caughtMonsters } from "$lib/stores";
 
+  export let data: PageData;
+
   type statObj = {
     [key: string]: string;
   }
@@ -16,6 +18,13 @@
 
   let dexCount = 0;
   let shiny = false;
+  let caught = false;
+
+  $: if ($caughtMonsters.some(mon => mon.name === data.monster.name)){
+    caught = true;
+  } else {
+    caught = false;
+  };
 
   const catchMonster = () => {
     caughtMonsters.update((monsters) => {
@@ -24,7 +33,6 @@
     console.log("caught monster: " + data.monster.name)
   }
 
-	export let data: PageData;
 </script>
 
 <section class="center">
@@ -72,7 +80,7 @@
 
 <section class="center">
   <div class="addMonster">
-    <button on:click={catchMonster} >Add to my dex</button>
+    <button disabled={caught} on:click={catchMonster}>Catch!</button>
   </div>
 </section>
 
@@ -134,7 +142,14 @@
 
   .addMonster {
     button {
+      background: rgb(28, 184, 65);
+      color: white;
       padding: 8px 16px;
+
+      &:disabled {
+        background-color: var(--background);
+        color: gray;
+      }
     }
   }
 
