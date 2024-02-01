@@ -47,6 +47,20 @@
 
   :global(body) {
     margin: 0;
+    background-color: var(--background);
+  }
+
+  :global(.text) {
+    color: var(--text);
+  }
+
+  :global(:root) {
+    --background: #eff0f3;
+    --headline: #232946;
+    --text: #2a2a2a;
+    --button: #ff8e3c;
+    --secondary: #fffffe;
+    --tertiary: #d9376e;
   }
 
   .container {

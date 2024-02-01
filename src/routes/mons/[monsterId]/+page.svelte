@@ -1,55 +1,143 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 
+  type statObj = {
+    [key: string]: string;
+  }
+  const stats: statObj = {
+    'hp': 'HP',
+    'attack': 'Attack',
+    'defense': 'Defense',
+    'special-attack': 'Sp. Atk.',
+    'special-defense': 'Sp. Def.',
+    'speed': 'Speed'
+  }
+
 	export let data: PageData;
 </script>
 
-<div class="mon-header">
-  <img src={data.monster.sprites.front_default} alt={data.monster.name} width="150" height="150"/>
+<section class="center">
+  <div class="mon-header">
+    <div class="img-container">
+      <img src={data.monster.sprites.front_default} alt={data.monster.name} width="150" height="150"/>
+    </div>
 
-  <div class="mon-stats">
-    <p>id: {data.monster.id}</p>
-    <p>height: {data.monster.height}</p>
-    <p>weight: {data.monster.weight}</p>
-    <div class="type-container">
-      {#each data.monster.types as types}
+    <div class="mon-info">
+      <div class="info-block text">
+        <h2 class="info-name name">{data.monster.name}</h2>
+        <div class="info-container">
+          <p class="info-name text">ID: </p>
+          <p class="info-data text">{data.monster.id}</p>
+        </div>
+        <div class="info-container">
+          <p class="info-name text">Height: </p>
+          <p class="info-data text">{data.monster.height}</p>
+        </div>
+        <div class="info-container">
+          <p class="info-name text">Weight: </p>
+          <p class="info-data text">{data.monster.weight}</p>
+        </div>
+      </div>
+      <div class="type-container">
+        {#each data.monster.types as types}
         <div class={"pkm-type " + types.type.name}><span>{types.type.name}</span></div>
-      {/each}
+        {/each}
+      </div>
     </div>
   </div>
-</div>
+</section>
 
-<div class="stat-block">
-  {#each data.monster.stats as stat}
-    <div class="stat"
+<section class="center">
+  <div class="stat-block text">
+    {#each data.monster.stats as stat}
+    <div class="stat-container">
+      <div class="stat-name">{stats[stat.stat.name] || stat.stat.name} &nbsp; </div>
+      <div class="stat">
+        {stat.base_stat}
+      </div>
+      <div class="stat-bar" style="--width-fill: calc(({stat.base_stat}% / 255) * 100)"
       class:very-bad={29 >= stat.base_stat && stat.base_stat >= 1}
       class:bad={59 >= stat.base_stat && stat.base_stat >= 30}
       class:mediocre={89 >= stat.base_stat && stat.base_stat >= 60}
       class:good={119 >= stat.base_stat && stat.base_stat >= 90}
       class:very-good={149 >= stat.base_stat && stat.base_stat >= 120}
       class:phenomenal={255 >= stat.base_stat && stat.base_stat >= 150}
-    >
-      {stat.stat.name}: {stat.base_stat}
+      ></div>
     </div>
-  {/each}
-</div>
+    {/each}
+  </div>
+</section>
 
 <style lang="scss">
+
+  .center {
+    display: flex;
+    justify-content: center;
+  }
 
   .mon-header {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    margin: 0 10px;
 
-    p {
-      margin: 10px 0px;
+    width: 500px;
+    max-width: 500px;
+
+    padding: 10px 0px;
+    margin: 10px 0px;
+
+    border: 3px solid black;
+    border-radius: 5px;
+
+    .img-container{
+      display: flex;
+      align-items: center;
+      margin-right: 10px;
+
+      img {
+        background-color: var(--secondary);
+        border-radius: 10px;
+      }
     }
   }
 
-  .mon-stats {
+  .mon-info {
     display: flex;
     flex-direction: column;
+    font-weight: bold;
+
+    .name {
+      text-align: center;
+      text-decoration: underline;
+
+      &::first-letter {
+        text-transform: uppercase;
+      }
+    }
+
+    .info-block {
+      margin-bottom: 10px;
+    }
+
+    .info-container {
+      display: flex;
+      justify-content: center;
+
+
+      text-align: right;
+      color: var(--text);
+
+      p {
+        margin: 0px;
+      }
+
+      .info-name {
+        width: 50px;
+      }
+      .info-data {
+        width: 30px;
+      }
+    }
   }
 
   .type-container {
@@ -63,28 +151,52 @@
   .stat-block {
     display: flex;
     flex-direction: column;
+    width: 500px;
+    max-width: 500px;
+    border: 3px solid black;
+    border-radius: 5px;
+    padding-bottom: 10px;
+    background-color: var(--secondary);
+
+    .stat-container {
+    display: flex;
+    margin-top: 10px;
+    width: 100%;
+
+    .stat-name {
+      width: 70px;
+      text-align: right;
+      font-weight: bold;
+    }
+  }
 
     .stat {
-      background-color: green;
+      width: 30px;
+      font-weight: bold;
     }
 
-    .very-bad {
-      color: red;
-    }
-    .bad {
-      color: orange;
-    }
-    .mediocre {
-      color: yellow;
-    }
-    .good {
-      color: green;
-    }
-    .very-good {
-      color: darkgreen;
-    }
-    .phenomenal {
-      color: blue;
+    .stat-bar{
+      max-width: min(400px, 70%);
+      width: var(--width-fill);
+
+      &.very-bad {
+        background-color: red;
+      }
+      &.bad {
+        background-color: orange;
+      }
+      &.mediocre {
+        background-color: #ffd803;
+      }
+      &.good {
+        background-color: green;
+      }
+      &.very-good {
+        background-color: darkgreen;
+      }
+      &.phenomenal {
+        background-color: blue;
+      }
     }
   }
 
