@@ -35,7 +35,7 @@
 
 </script>
 
-<section class="center">
+<section id="mon-info" class="center">
   <div class="mon-header">
     <div class="img-container">
       <img src={shiny ? data.monster.sprites.front_shiny : data.monster.sprites.front_default} alt={data.monster.name} width="150" height="150"/>
@@ -84,24 +84,40 @@
   </div>
 </section>
 
-<section class="center">
+<section id="pokedex" class="center">
   <div class="pokedex">
     <div class="dex-entry text">
       <!-- have to replace \u000c unicode character coming from the api -->
       {(data.species.flavor_text_entries[dexCount].flavor_text).replace('\u000c', ' ')}
     </div>
-    <div class="scroll-buttons">
-      <button on:click={() => (dexCount > 0) ? dexCount-- : null}>
-        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M328 112L184 256l144 144"/></svg>
-      </button>
-      <button on:click={() => (dexCount < data.species.flavor_text_entries.length -1) ? dexCount++ : null}>
-        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="m184 112l144 144l-144 144"/></svg>
-      </button>
-    </div>
-  </div>
-</section>
+    <div class="scroll-area">
+      <div class="dex-game">
 
-<section class="center">
+        <label>
+          Game:
+          <select bind:value={dexCount} name="games">
+            {#each data.species.flavor_text_entries as dex, i}
+              <option value={i}>
+                {dex.version.name} | {dex.language.name}
+              </option>
+            {/each}
+          </select>
+        </label>
+      </div>
+
+      <div class="scroll-buttons">
+        <button on:click={() => (dexCount > 0) ? dexCount-- : null}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M328 112L184 256l144 144"/></svg>
+        </button>
+        <button on:click={() => (dexCount < data.species.flavor_text_entries.length -1) ? dexCount++ : null}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="m184 112l144 144l-144 144"/></svg>
+        </button>
+      </div>
+    </div>
+    </div>
+  </section>
+
+<section id="stats" class="center">
   <div class="stat-block text">
     {#each data.monster.stats as stat}
     <div class="stat-container">
@@ -179,21 +195,30 @@
       font-weight: bold;
     }
 
-    .scroll-buttons {
+    .scroll-area {
       display: flex;
-      justify-content: space-around;
-      align-items: center;
+      flex-direction: column;
+      justify-content: center;
 
+      .dex-game {
+        font-weight: bold;
+        text-align: center;
+      }
 
-      padding: 10px;
-      width: 50%;
+      .scroll-buttons {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
 
-      button {
-        height: 45px;
-        width: 45px;
+        padding: 10px;
+
+        button {
+          margin: 3px;
+          height: 45px;
+          width: 45px;
+        }
       }
     }
-
   }
 
   .mon-header {

@@ -36,8 +36,12 @@ export type fullMonster = {
 
 type flavorText = {
   flavor_text: string,
-  language: string,
-  version: string,
+  language: {
+    name: string
+  },
+  version: {
+    name: string
+  },
 }
 
 type fullSpecies = {
