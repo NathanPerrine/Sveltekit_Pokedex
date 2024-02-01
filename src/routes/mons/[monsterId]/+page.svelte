@@ -13,6 +13,9 @@
     'speed': 'Speed'
   }
 
+  let dexCount = 0;
+  let shiny = false;
+
 	export let data: PageData;
 </script>
 
@@ -48,6 +51,23 @@
 </section>
 
 <section class="center">
+  <div class="pokedex">
+    <div class="dex-entry text">
+      <!-- have to replace \u000c unicode character coming from the api -->
+      {(data.species.flavor_text_entries[dexCount].flavor_text).replace('\u000c', ' ')}
+    </div>
+    <div class="scroll-buttons">
+      <button on:click={() => (dexCount > 0) ? dexCount-- : null}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M328 112L184 256l144 144"/></svg>
+      </button>
+      <button on:click={() => (dexCount < data.species.flavor_text_entries.length -1) ? dexCount++ : null}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="m184 112l144 144l-144 144"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<section class="center">
   <div class="stat-block text">
     {#each data.monster.stats as stat}
     <div class="stat-container">
@@ -70,9 +90,47 @@
 
 <style lang="scss">
 
+
   .center {
     display: flex;
     justify-content: center;
+  }
+
+  .pokedex {
+    border: 3px solid black;
+    border-radius: 5px;
+    background-color: var(--secondary);
+
+    margin: 10px 0px;
+    padding: 10px 0px;
+    height: 150px;
+    width: 500px;
+
+    display: flex;
+
+    .dex-entry {
+      padding: 10px;
+      width: 50%;
+      overflow-y: auto;
+
+      font-weight: bold;
+    }
+
+    .scroll-buttons {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+
+
+      padding: 10px;
+      width: 50%;
+
+      button {
+        height: 45px;
+        width: 45px;
+      }
+    }
+
   }
 
   .mon-header {
@@ -81,7 +139,6 @@
     flex-wrap: wrap;
 
     width: 500px;
-    max-width: 500px;
 
     padding: 10px 0px;
     margin: 10px 0px;
@@ -153,7 +210,6 @@
     flex-direction: column;
 
     width: 500px;
-    max-width: 500px;
 
     border: 3px solid black;
     border-radius: 5px;

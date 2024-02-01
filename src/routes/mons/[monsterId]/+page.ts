@@ -24,7 +24,7 @@ type stats = {
   }
 }
 
-export type fullMonster = {
+type fullMonster = {
   id: number,
   name: string,
   height: number,
@@ -34,6 +34,16 @@ export type fullMonster = {
   stats: stats[]
 }
 
+type flavorText = {
+  flavor_text: string,
+  language: string,
+  version: string,
+}
+
+type fullSpecies = {
+  flavor_text_entries: flavorText[]
+}
+
 export const load = (async ({ fetch, params }) => {
   let mon = params.monsterId.toLowerCase()
 
@@ -41,7 +51,12 @@ export const load = (async ({ fetch, params }) => {
   const json = await response.json()
   const monster: fullMonster = json
 
+  const dexResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${mon}`)
+  const pokeJson = await dexResponse.json()
+  const species: fullSpecies = pokeJson
+
   return {
-    monster
+    monster,
+    species
   };
 }) satisfies PageLoad;
