@@ -55,7 +55,7 @@
 <section class="monsters-container">
   <div class="monsters">
     {#each selectedMonsters as monster (monster.id)}
-    <MonsterCard monster={monster} />
+    <MonsterCard catchable={true} {monster} />
     {/each}
   </div>
 </section>

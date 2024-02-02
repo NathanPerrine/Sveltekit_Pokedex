@@ -1,10 +1,8 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-  import { caughtMonsters } from "$lib/stores";
-  import Modal from '$lib/components/Modal.svelte';
+	import AddMonButton from '$lib/components/AddMonButton.svelte';
 
   export let data: PageData;
-  let showModal = false;
 
   type statObj = {
     [key: string]: string;
@@ -20,21 +18,6 @@
 
   let dexCount = 0;
   let shiny = false;
-  let caught = false;
-
-  $: if ($caughtMonsters.some(mon => mon.name === data.monster.name)){
-    caught = true;
-  } else {
-    caught = false;
-  };
-
-  const catchMonster = () => {
-    caughtMonsters.update((monsters) => {
-      return [...monsters, data.monster]
-    })
-    showModal = true
-  }
-
 </script>
 
 <section id="mon-info" class="center">
@@ -81,16 +64,7 @@
 </section>
 
 <section class="center">
-  <div class="addMonster">
-    <button disabled={caught} on:click={catchMonster}>Catch!</button>
-  </div>
-
-  <Modal bind:showModal>
-    <h2 slot="header">
-      Pokemon caught!
-    </h2>
-    <p class="cap-first">{data.monster.name} has been sent to your PC.</p>
-  </Modal>
+  <AddMonButton monster={data.monster} />
 </section>
 
 <section id="pokedex" class="center">
@@ -173,20 +147,6 @@
     line-height: 26px;
     box-shadow: 0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px 0 rgba(0,0,0,.06);
   }
-
-  .addMonster {
-    button {
-      background: rgb(28, 184, 65);
-      color: white;
-      padding: 8px 16px;
-
-      &:disabled {
-        background-color: var(--background);
-        color: gray;
-      }
-    }
-  }
-
 
   .center {
     display: flex;
@@ -311,7 +271,7 @@
         width: 50px;
       }
       .info-data {
-        width: 30px;
+        width: 40px;
       }
     }
   }

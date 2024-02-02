@@ -1,8 +1,12 @@
 <script lang="ts">
-	import type { IndexMonster } from "./+page";
+	import AddMonButton from "$lib/components/AddMonButton.svelte";
+  import { page } from "$app/stores";
+  import { caughtMonsters } from "$lib/stores";
+  import type { IndexMonster } from "./+page";
   import type { fullMonster } from "./mons/[monsterId]/+page";
 
   export let monster : IndexMonster | fullMonster;
+  export let catchable : boolean = false;
 
   let image: string | null
 
@@ -11,9 +15,17 @@
   } else {
     image = monster.sprites.front_default
   }
+
+  let caught = false;
+
+  $: if ($page.url.pathname == '/' && $caughtMonsters.some(mon => mon.name.toLowerCase() === monster.name.toLowerCase())){
+    caught = true;
+  } else {
+    caught = false;
+  };
 </script>
 
-<div class="monster">
+<div class="monster" class:caught={caught}>
   <a href={`/mons/${monster.name}`}>
     <div class="monster-content">
       <img loading="lazy" src={image} alt={monster.name} width="100px" height="100px" />
@@ -25,9 +37,36 @@
       {monster.id}
     </div>
   </a>
+  {#if catchable}
+    {#if !caught}
+    <div class="center catch-btn">
+      <AddMonButton monster={monster} />
+    </div>
+    {:else}
+        <a class="view-btn" href={`/mons/${monster.name}`}>View</a>
+    {/if}
+  {/if}
 </div>
 
 <style lang="scss">
+  .center {
+    display: flex;
+    justify-content: center;
+  }
+
+  .catch-btn {
+    padding-top: 10px;
+    position: relative;
+    bottom: 5px;
+  }
+
+  .view-btn {
+    display: block;
+    width: 100%;
+    padding-top: 10px;
+    text-align: center;
+  }
+
   .monster {
     width: 100px;
     margin: 10px;
@@ -43,16 +82,19 @@
     &:hover {
       background-color: #ddd;
     }
+  }
 
-    a {
+  .caught {
+      background-color: goldenrod;
+    }
+
+  a {
       border: none;
       background-color: inherit;
-      max-width: 100px;
 
       font-weight: bold;
       color: var(--text);
     }
-  }
 
   .monster-content {
     display: flex;
