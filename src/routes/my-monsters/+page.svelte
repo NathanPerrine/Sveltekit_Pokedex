@@ -1,27 +1,34 @@
 <script lang="ts">
   import { caughtMonsters } from "$lib/stores";
-	import { fade, fly } from "svelte/transition";
   import MonsterCard from "../MonsterCard.svelte";
+  import { flip } from 'svelte/animate';
+  import { crossfade, fly } from 'svelte/transition';
+  import { cubicOut, cubicInOut } from 'svelte/easing';
+
+  const DEFAULT_DURATION = 500;
+  const [send, receive] = crossfade({duration: DEFAULT_DURATION, easing: cubicOut});
 
   const release = (i: number) => {
     caughtMonsters.update((monsters) => {
       return [...monsters.slice(0, i), ...monsters.slice(i + 1)]
     })
   }
-
-
-  import { flip } from 'svelte/animate';
-	import { bounceInOut, expoInOut, quartInOut } from "svelte/easing";
 </script>
 
 <div class="monsters">
   {#each $caughtMonsters as monster, i (monster.name)}
     <div
-    in:fly|global={{duration: 1000, delay:150*i, y:200, easing:quartInOut}}
-    out:fly={{ duration: 1000, y:200}}
-    class="mon-container">
+      in:receive="{{key:monster.name}}"
+      out:send="{{key: monster.name}}"
+      animate:flip="{{duration: DEFAULT_DURATION}}"
+    >
+    <div
+      in:fly|global={{duration: 1000, delay:150*i, y:200, easing:cubicInOut}}
+      class="mon-container"
+    >
       <MonsterCard catchable={false} {monster} />
       <button on:click={() => release(i)}>Release!</button>
+    </div>
     </div>
   {/each}
 </div>
