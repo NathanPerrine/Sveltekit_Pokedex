@@ -64,6 +64,7 @@
     display: block;
     width: 100%;
     padding-top: 10px;
+    padding-bottom: 11px;
     text-align: center;
   }
 
