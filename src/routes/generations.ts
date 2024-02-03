@@ -55,4 +55,10 @@ export const generations: Generation[] = [
     games: ['Sword', 'Shield'],
     main_region: 'Galar',
   },
+  {
+    id: 9,
+    name: 'Generation IX',
+    games: ['Scarlet', 'Violet'],
+    main_region: 'Paldea',
+  },
 ]
