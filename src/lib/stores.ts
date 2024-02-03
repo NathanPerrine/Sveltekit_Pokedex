@@ -6,8 +6,7 @@ import { browser } from "$app/environment";
 const check = browser ? window.localStorage.getItem('caughtMonsters') : null;
 let initialValue = []
 
-if (check) {
-  console.log(check)
+if (typeof check === 'string') {
   initialValue = JSON.parse(check)
 }
 
