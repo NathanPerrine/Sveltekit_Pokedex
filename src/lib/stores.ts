@@ -3,7 +3,13 @@ import type { IndexMonster } from "../routes/+page";
 import type { fullMonster } from "../routes/mons/[monsterId]/+page";
 import { browser } from "$app/environment";
 
-const initialValue = browser ? JSON.parse(window.localStorage.getItem('caughtMonsters') || '{}') ?? [] : [];
+const check = browser ? window.localStorage.getItem('caughtMonsters') : null;
+let initialValue = []
+
+if (check) {
+  console.log(check)
+  initialValue = JSON.parse(check)
+}
 
 export const caughtMonsters: Writable<(fullMonster|IndexMonster)[]> = writable(initialValue);
 
