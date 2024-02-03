@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import AddMonButton from '$lib/components/AddMonButton.svelte';
+	import { cubicIn } from 'svelte/easing';
 
   export let data: PageData;
 
@@ -18,7 +19,27 @@
 
   let dexCount = 0;
   let shiny = false;
+
+  function scale(
+    node: Element,
+    { delay = 0, duration = 300, easing = cubicIn } = {},
+    { direction = 'both' } = {}
+  ) {
+    return {
+      delay,
+      duration,
+      easing,
+      css: (t: number) => `
+        scale: ${t};
+        transform-origin: center center;
+      `
+    }
+
+  }
 </script>
+
+<div in:scale={{ duration: 400 }}>
+
 
 <section id="mon-info" class="center">
   <div class="mon-header">
@@ -122,6 +143,8 @@
     {/each}
   </div>
 </section>
+
+</div>
 
 <style lang="scss">
 

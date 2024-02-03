@@ -4,6 +4,7 @@
   import { generations } from "./generations"
   import { goto } from "$app/navigation"
 	import MonsterCard from "./MonsterCard.svelte";
+	import { fade } from "svelte/transition";
 
 
   export let data : PageData
@@ -54,8 +55,13 @@
 
 <section class="monsters-container">
   <div class="monsters">
-    {#each selectedMonsters as monster (monster.id)}
-    <MonsterCard catchable={true} {monster} />
+    {#each selectedMonsters as monster, i (monster.id)}
+      <div
+        in:fade={{ duration: 300, delay: 200 + 25*i }}
+        out:fade={{ duration: 200}}
+      >
+        <MonsterCard catchable={true} {monster} />
+      </div>
     {/each}
   </div>
 </section>
