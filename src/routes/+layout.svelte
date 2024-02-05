@@ -40,13 +40,10 @@
   }
 
   :global(body) {
+    height: 100vh;
     margin: 0;
     background-color: var(--dark-shade);
     background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='100%25' width='100%25'%3E%3Cdefs%3E%3Cpattern id='doodad' width='50' height='50' viewBox='0 0 40 40' patternUnits='userSpaceOnUse' patternTransform='rotate(45)'%3E%3Crect width='100%25' height='100%25' fill='rgba(30, 48, 97,1)'/%3E%3Ccircle cx='0' cy='20' r='3' fill='%234a5568'/%3E%3Ccircle cx='40' cy='20' r='3' fill='%234a5568'/%3E%3Cpath d='m 18 17 h4 v6 h-4z' fill='%231a202c'/%3E%3C/pattern%3E%3C/defs%3E%3Crect fill='url(%23doodad)' height='200%25' width='200%25'/%3E%3C/svg%3E ")
-  }
-
-  :global(.text) {
-    color: var(--text);
   }
 
   :global(.center) {

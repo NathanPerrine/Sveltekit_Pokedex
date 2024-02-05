@@ -261,7 +261,6 @@
     .name {
       text-align: center;
       text-decoration: underline;
-      color: var(--headline);
       max-width: 125px;
 
       &::first-letter {
