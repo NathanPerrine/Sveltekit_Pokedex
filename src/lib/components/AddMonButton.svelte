@@ -23,7 +23,7 @@
   }
 </script>
 
-<button disabled={caught} on:click={catchMonster}>Catch!</button>
+<button class="btn" disabled={caught} on:click={catchMonster}>Catch!</button>
 
 <Modal bind:showModal>
   <h2 slot="header">
@@ -34,23 +34,12 @@
 
 <style lang="scss">
   button {
-    background: rgb(63, 202, 96);
-
-    padding: 4px 8px;
-    outline: 0;
-    border: 0;
-    cursor: pointer;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 600;
-    border: 1px solid #cbd5e0;
-    box-shadow: 0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px 0 rgba(0,0,0,.06);
-
-    z-index: 10;
+    width: var(--width);
 
     &:disabled {
-      background-color: var(--background);
+      cursor: auto;
       color: gray;
+      pointer-events: none;
     }
   }
 </style>

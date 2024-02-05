@@ -85,7 +85,9 @@
 </section>
 
 <section class="center">
-  <AddMonButton monster={data.monster} />
+  <div class="center catch-btn">
+    <AddMonButton monster={data.monster} --width="75%" />
+  </div>
 </section>
 
 <section id="pokedex" class="center">
@@ -112,10 +114,10 @@
       </div>
 
       <div class="scroll-buttons">
-        <button on:click={() => (dexCount > 0) ? dexCount-- : null}>
+        <button class="btn" on:click={() => (dexCount > 0) ? dexCount-- : null}>
           <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M328 112L184 256l144 144"/></svg>
         </button>
-        <button on:click={() => (dexCount < data.species.flavor_text_entries.length -1) ? dexCount++ : null}>
+        <button class="btn" on:click={() => (dexCount < data.species.flavor_text_entries.length -1) ? dexCount++ : null}>
           <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="m184 112l144 144l-144 144"/></svg>
         </button>
       </div>
@@ -156,30 +158,16 @@
     text-transform: uppercase;
   }
 
-  button {
-    display: inline-block;
-    outline: 0;
-    border: 0;
-    cursor: pointer;
-    background-color: white;
-    border-radius: 4px;
-    font-size: 16px;
-    font-weight: 600;
-    color: #2d3748;
-    border: 1px solid #cbd5e0;
-    line-height: 26px;
-    box-shadow: 0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px 0 rgba(0,0,0,.06);
-  }
-
-  .center {
-    display: flex;
-    justify-content: center;
+  .catch-btn {
+    width: 500px;
   }
 
   .pokedex {
-    border: 3px solid black;
-    border-radius: 5px;
-    background-color: var(--secondary);
+    color: var(--light-shade);
+    background-color: var(--main-color);
+
+    border: 3px solid var(--light-accent);
+    border-radius: 10px;
 
     margin: 10px 0px;
     padding: 10px 0px;
@@ -214,6 +202,8 @@
         padding: 10px;
 
         button {
+          font-size: 24px;
+          padding-top: 8px;
           margin: 3px;
           height: 45px;
           width: 45px;
@@ -232,8 +222,11 @@
     padding: 10px 0px;
     margin: 10px 0px;
 
-    border: 3px solid black;
-    border-radius: 5px;
+    color: var(--light-shade);
+    background-color: var(--main-color);
+
+    border: 3px solid var(--light-accent);
+    border-radius: 10px;
 
     .img-container{
       display: flex;
@@ -242,20 +235,20 @@
 
       position: relative;
 
+      background-color: var(--light-shade);
+      border-right: 3px solid var(--dark-accent);
+      border-bottom: 3px solid var(--dark-accent);
+      border-radius: 10px;
+
       .shiny {
         position: absolute;
         top: 5%;
         right: 5%;
+        color: var(--dark-shade);
 
         input[type=checkbox]{
           display: none;
         }
-      }
-
-
-      img {
-        background-color: var(--secondary);
-        border-radius: 10px;
       }
     }
   }
@@ -268,7 +261,6 @@
     .name {
       text-align: center;
       text-decoration: underline;
-      color: var(--headline);
       max-width: 125px;
 
       &::first-letter {
@@ -312,12 +304,13 @@
     flex-direction: column;
 
     width: 500px;
-
-    border: 3px solid black;
-    border-radius: 5px;
-
     padding-bottom: 10px;
-    background-color: var(--secondary);
+
+    color: var(--light-shade);
+    background-color: var(--main-color);
+
+    border: 3px solid var(--light-accent);
+    border-radius: 10px;
 
     .stat-container {
     display: flex;
