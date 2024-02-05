@@ -64,7 +64,7 @@
     display: block;
     width: 100%;
     padding-top: 10px;
-    padding-bottom: 11px;
+    padding-bottom: 10px;
     text-align: center;
   }
 
@@ -75,18 +75,23 @@
 
     position: relative;
 
-    background-color: var(--secondary);
+    color: var(--light-shade);
+    background-color: var(--main-color);
 
-    border: 3px solid var(--text);
+    border: 3px solid var(--light-accent);
     border-radius: 10px;
 
     &:hover {
-      background-color: #ddd;
+      background-color: var(--light-accent);
+      color: var(--dark-shade);
+      border-color: var(--dark-accent);
     }
   }
 
   .caught {
-      background-color: goldenrod;
+      background-color: var(--light-accent);
+      border-color: var(--dark-accent);
+      color: var(--dark-shade);
     }
 
   a {
@@ -94,7 +99,8 @@
       background-color: inherit;
 
       font-weight: bold;
-      color: var(--text);
+      color: inherit;
+      text-decoration: none;
     }
 
   .monster-content {
@@ -117,6 +123,6 @@
     top: 8px;
     right: 8px;
     font-size: 0.8em;
-    color: var(--text-highlight);
+    color: inherit;
   }
 </style>
