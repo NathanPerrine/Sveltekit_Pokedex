@@ -5,7 +5,7 @@
 	import { goto } from '$app/navigation';
 	import MonsterCard from './MonsterCard.svelte';
 	import { fade } from 'svelte/transition';
-
+  import type { IndexMonster } from './+page';
 	export let data: PageData;
 
 	let form = {
@@ -13,7 +13,7 @@
 	};
 
 	let searchString = '';
-	$: selectedMonsters = data.monsters.filter((monster) => {
+	$: selectedMonsters = data.monsters.filter((monster: IndexMonster) => {
 		return monster.name.toLocaleLowerCase().includes(searchString.toLocaleLowerCase());
 	});
 
